@@ -34,6 +34,10 @@ public class Main {
             Employee findEmp = em.find(Employee.class, emp.getId());
             System.out.println("\ndepartment name: " + findEmp.getDepartment().getName());
 
+            findEmp.getDepartment().getEmployees().forEach(employee -> {
+                System.out.println("emp name: " + employee.getName());
+            });
+
             tx.commit();
         } catch (Exception e) {
             tx.rollback();
