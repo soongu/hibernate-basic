@@ -18,12 +18,12 @@ public class Main {
 
         try {
 
-            List<Member> resultList = em.createQuery("select m from Member as m", Member.class)
-                    .setFirstResult(5)
-                    .setMaxResults(10)
-                    .getResultList();
-
-            resultList.forEach(System.out::println);
+//            List<Member> resultList = em.createQuery("select m from Member as m", Member.class)
+//                    .setFirstResult(5)
+//                    .setMaxResults(10)
+//                    .getResultList();
+//
+//            resultList.forEach(System.out::println);
 
             tx.commit();
         } catch (Exception e) {
