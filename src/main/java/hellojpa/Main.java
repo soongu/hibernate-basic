@@ -15,12 +15,18 @@ public class Main {
         EntityTransaction tx = em.getTransaction();
         tx.begin();
 
-        // code
-        Member member = new Member(1L, "helloA");
+        try {
+            Member findMember = em.find(Member.class, 1L);
+            System.out.println("findMember = " + findMember);
 
-        em.persist(member);
+            findMember.setName("Modi33");
+            em.persist(findMember);
+            tx.commit();
+        } catch (Exception e) {
+            tx.rollback();
+        }
 
-        tx.commit();
+
 
         em.close();
         emf.close();
