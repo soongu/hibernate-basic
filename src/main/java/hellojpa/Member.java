@@ -1,5 +1,7 @@
 package hellojpa;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -7,11 +9,13 @@ import java.util.Date;
 @Table(name = "tbl_member")
 public class Member {
 
-    @Id
+    @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     private String username;
+
+    @Column(columnDefinition = "integer default 0")
     private Integer age;
     @Enumerated(EnumType.STRING)
     private RoleType roleType;
@@ -21,6 +25,14 @@ public class Member {
     private Date lastModifiedDate;
     @Lob
     private String description;
+
+
+    @Transient // 컬럼생성은 안함
+    private int nnn;
+
+    public RoleType getRoleType() {
+        return roleType;
+    }
 
     public Member() {
     }
