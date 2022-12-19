@@ -1,5 +1,8 @@
 package hellojpa;
 
+import jpashop.entity.Order;
+import jpashop.entity.OrderItem;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -18,25 +21,9 @@ public class Main {
 
         try {
 
-            Department dept = new Department();
-            dept.setName("BUSINESS");
-            em.persist(dept);
+            Order order = new Order();
 
-            Employee emp = new Employee();
-            emp.setName("김말똥");
-            emp.setDepartment(dept);
-
-            em.persist(emp);
-
-            em.flush(); // 영속상태를 만들어줘야 select쿼리를 볼 수 있다
-            em.clear();
-
-            Employee findEmp = em.find(Employee.class, emp.getId());
-            System.out.println("\ndepartment name: " + findEmp.getDepartment().getName());
-
-            findEmp.getDepartment().getEmployees().forEach(employee -> {
-                System.out.println("emp name: " + employee.getName());
-            });
+            order.addOrderItem(new OrderItem());
 
             tx.commit();
         } catch (Exception e) {
