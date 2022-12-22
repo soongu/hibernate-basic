@@ -1,5 +1,7 @@
 package hellojpa;
 
+import hellojpa.cascade.Child;
+import hellojpa.cascade.Parent;
 import jpashop.entity.Member;
 import jpashop.entity.Order;
 import jpashop.entity.OrderItem;
@@ -22,23 +24,20 @@ public class Main {
 
         try {
 
-            Department dep = new Department();
-            dep.setName("business");
-            em.persist(dep);
+            Child child1 = new Child();
+            Child child2 = new Child();
 
-            Employee emp = new Employee();
-            emp.setName("kim");
-            emp.setDepartment(dep);
+            Parent parent = new Parent();
+            parent.addChild(child1);
+            parent.addChild(child2);
 
-            em.persist(emp);
+            em.persist(parent);
 
             em.flush();
             em.clear();
 
-            Employee findEmp = em.find(Employee.class, emp.getId());
-            System.out.println("findEmp.getName() = " + findEmp.getName());
-            System.out.println("findEmp.getDepartment().getName() = " + findEmp.getDepartment().getName());
-
+            Parent findParent = em.find(Parent.class, parent.getId());
+            findParent.getChildList().remove(0);
 
             tx.commit();
         } catch (Exception e) {
