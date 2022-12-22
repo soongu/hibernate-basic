@@ -1,5 +1,6 @@
 package hellojpa;
 
+import jpashop.entity.Member;
 import jpashop.entity.Order;
 import jpashop.entity.OrderItem;
 
@@ -21,9 +22,23 @@ public class Main {
 
         try {
 
-            Order order = new Order();
+            Department dep = new Department();
+            dep.setName("business");
+            em.persist(dep);
 
-            order.addOrderItem(new OrderItem());
+            Employee emp = new Employee();
+            emp.setName("kim");
+            emp.setDepartment(dep);
+
+            em.persist(emp);
+
+            em.flush();
+            em.clear();
+
+            Employee findEmp = em.find(Employee.class, emp.getId());
+            System.out.println("findEmp.getName() = " + findEmp.getName());
+            System.out.println("findEmp.getDepartment().getName() = " + findEmp.getDepartment().getName());
+
 
             tx.commit();
         } catch (Exception e) {
