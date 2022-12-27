@@ -2,6 +2,10 @@ package hellojpa;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Employee {
@@ -9,43 +13,29 @@ public class Employee {
     @Id @GeneratedValue
     @Column(name = "emp_id")
     private Long id;
+
+    @Column(nullable = false)
     private String name;
 
-    // Period
-//    private LocalDateTime startDate;
-//    private LocalDateTime endDate;
 
     // 임베디드 타입은 여러 엔터티에서 공유하면 위험!!!
     @Embedded  // 안넣어도 자동 적용
     private Period period;
 
 
-    // Address
-//    private String city;
-//    private String street;
-//    private String zipcode;
-
-
     @Embedded
     private Address homeAddress;
 
 
-    @Embedded
-    @AttributeOverrides({
-            @AttributeOverride(
-                    name="city", column = @Column(name = "work_city")
-            ),
-            @AttributeOverride(
-                    name="street", column = @Column(name = "work_street")
-            ),
-            @AttributeOverride(
-                    name="zipcode", column = @Column(name = "work_zipcode")
-            )
-    })
-    private Address workAddress;
+    @ElementCollection
+    @CollectionTable(name = "FAVORITE_FOOD", joinColumns = @JoinColumn(name = "emp_id"))
+    @Column(name = "food_name")
+    private Set<String> favoriteFoods = new HashSet<>();
 
+    @ElementCollection
+    @CollectionTable(name = "ADDRESS_HISTORY", joinColumns = @JoinColumn(name = "emp_id"))
+    private List<Address> addressHistory = new ArrayList<>();
 
-    //    private Long deptId;
 
     // EAGER는 조인문이나가고 LAZY는 쿼리를 둘로쪼갠다
     @ManyToOne(fetch = FetchType.LAZY)
@@ -91,5 +81,21 @@ public class Employee {
 
     public void setDepartment(Department department) {
         this.department = department;
+    }
+
+    public Set<String> getFavoriteFoods() {
+        return favoriteFoods;
+    }
+
+    public void setFavoriteFoods(Set<String> favoriteFoods) {
+        this.favoriteFoods = favoriteFoods;
+    }
+
+    public List<Address> getAddressHistory() {
+        return addressHistory;
+    }
+
+    public void setAddressHistory(List<Address> addressHistory) {
+        this.addressHistory = addressHistory;
     }
 }

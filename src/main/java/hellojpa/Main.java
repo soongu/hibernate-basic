@@ -22,7 +22,14 @@ public class Main {
             Employee emp = new Employee();
             emp.setName("김빠빠");
             emp.setHomeAddress(new Address("Seoul", "Digitalro 19", "09890"));
-            emp.setPeriod(new Period());
+
+            emp.getFavoriteFoods().add("떡볶이");
+            emp.getFavoriteFoods().add("보쌈");
+            emp.getFavoriteFoods().add("치킨");
+
+            emp.getAddressHistory().add(new Address("수원", "인계동", "11222"));
+            emp.getAddressHistory().add(new Address("남양주", "마석", "44333"));
+
 
             em.persist(emp);
 
