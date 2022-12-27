@@ -1,16 +1,11 @@
 package hellojpa;
 
-import hellojpa.cascade.Child;
-import hellojpa.cascade.Parent;
 import jpashop.entity.Member;
-import jpashop.entity.Order;
-import jpashop.entity.OrderItem;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
-import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
@@ -24,20 +19,13 @@ public class Main {
 
         try {
 
-            Child child1 = new Child();
-            Child child2 = new Child();
+            Employee emp = new Employee();
+            emp.setName("김빠빠");
+            emp.setHomeAddress(new Address("Seoul", "Digitalro 19", "09890"));
+            emp.setPeriod(new Period());
 
-            Parent parent = new Parent();
-            parent.addChild(child1);
-            parent.addChild(child2);
+            em.persist(emp);
 
-            em.persist(parent);
-
-            em.flush();
-            em.clear();
-
-            Parent findParent = em.find(Parent.class, parent.getId());
-            findParent.getChildList().remove(0);
 
             tx.commit();
         } catch (Exception e) {
