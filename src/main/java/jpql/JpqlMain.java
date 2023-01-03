@@ -17,25 +17,23 @@ public class JpqlMain {
 
         try {
 
-            Student st = new Student();
-            st.setUsername("김빡빡");
-            st.setAge(30);
+            for (int i = 0; i < 100; i++) {
+                Student st = new Student();
+                st.setUsername("김빡빡");
+                st.setAge(30 + i);
+                em.persist(st);
+            }
+            em.flush();
+            em.clear();
 
-            em.persist(st);
+            List<Student> students = em.createQuery("select s from Student s order by s.age desc", Student.class)
+                    .setFirstResult(0)
+                    .setMaxResults(10)
+                    .getResultList();
 
-            TypedQuery<Student> query1 = em.createQuery("select s from Student s", Student.class);
-//            TypedQuery<String> query2 = em.createQuery("select s.username from Student s", String.class);
-//            Query query3 = em.createQuery("select s.username, s.age from Student s");
-
-            List<Student> students = query1.getResultList();
-
-            Student student = em.createQuery("select s from Student s where s.username = :username", Student.class)
-                    .setParameter("username", "김빡빡")
-                    .getSingleResult();
-
-
-            StudentDTO studentDTO = em.createQuery("select new jpql.StudentDTO(s.username, s.age) from Student s", StudentDTO.class)
-                    .getSingleResult();
+            for (Student s : students) {
+                System.out.println("s = " + s);
+            }
 
 
             tx.commit();
